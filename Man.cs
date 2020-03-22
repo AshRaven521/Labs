@@ -4,11 +4,7 @@ namespace People
 {
     class Man
     {
-        protected string name;
         protected int age;
-        protected double weightkilos;
-        protected double heightmeters;
-        protected string cityborn;
 
         public static int id;
 
@@ -45,11 +41,11 @@ namespace People
 
         public Man()
         {
-            name = "Vova";
+            Name = "Vova";
             age = 19;
-            weightkilos = 81.7;
-            heightmeters = 1.874;
-            cityborn = "Grodno";
+            WeightKilos = 81.7;
+            HeightMeters = 1.874;
+            CityBorn = "Grodno";
         }
 
         //конструктор для массива hobbies
@@ -65,7 +61,7 @@ namespace People
 
         public override string ToString()
         {
-            string info = "Name: " + name + ";" + " Age: " + age + ";" + " Height: " + heightmeters + ";" + " Weight: " + weightkilos + ";" + " Hometown: " + cityborn;
+            string info = "Name: " + Name + ";" + " Age: " + age + ";" + " Height: " + HeightMeters + ";" + " Weight: " + WeightKilos + ";" + " Hometown: " + CityBorn;
             return info;
 
         }
@@ -83,9 +79,9 @@ namespace People
             }
         }
 
-        public void mass_index()
+        public void MassIndex()
         {
-            double mass = weightkilos / (Math.Pow(heightmeters, 2));
+            double mass = WeightKilos / (Math.Pow(HeightMeters, 2));
             if (mass < 18.5)
             {
                 Console.WriteLine("Your mass index testifies that you have lack of weight\n");

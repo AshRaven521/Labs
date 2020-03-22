@@ -18,7 +18,7 @@ namespace People
             Man person = new Man();
             Console.WriteLine(person);
             //использование метода
-            person.mass_index();
+            person.MassIndex();
             Console.WriteLine();
 
             Console.WriteLine("Example of properties using: \n");
@@ -28,7 +28,7 @@ namespace People
             person.HeightMeters = 1.901;
             person.WeightKilos = 90.2;
             Console.WriteLine(person);
-            person.mass_index();
+            person.MassIndex();
             Console.WriteLine();
 
             //использование индексатора
