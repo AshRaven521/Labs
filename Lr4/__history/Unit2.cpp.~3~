@@ -1,0 +1,178 @@
+//---------------------------------------------------------------------------
+
+
+#pragma hdrstop
+
+#include "Unit2.h"
+
+#pragma once
+
+
+int stack::prior(char x)
+	{
+		if ((x == '*') || (x == '/')) return 2;
+		if ((x == '+') || (x == '-')) return 1;
+		if ((x == '(') || (x == ')')) return 0;
+	}
+
+bool stack::empty()
+{
+	return top == 0;
+}
+
+char stack::get_top_element()
+{
+	return body[top];
+}
+
+int stack::top_prior()
+{
+	return prior(body[top]);
+}
+
+void stack::push(char x)
+{
+	top++;
+	body[top] = x;
+}
+
+char stack::pop()
+{
+	top--;
+	return body[top + 1];
+}
+
+
+
+
+void stackint::push(double x)
+{
+	top++;
+	sum.push_back(x);
+}
+
+void stackint::pop()
+{
+	top--;
+	sum.erase(sum.end() - 1);
+}
+
+double stackint::get_top_element()
+{
+	return sum[top - 1];
+}
+
+char stackint::Calc(const std::string& pnote)
+{
+    stackint final;
+    size_t i = 0;
+    if (pnote[0] == '-') {
+		std::string temp1 = "";
+		temp1 += std::atoi(pnote.c_str());
+		i = temp1.size();
+    }
+    for (; i < pnote.size(); i++)
+    {
+        if (pnote[i] == ' ' && (pnote[i + 1] != '+' || pnote[i + 1] != '-' || pnote[i + 1] != '*' || pnote[i + 1] != '/')) {
+            size_t t = i - 1;
+            while (pnote[t] >= '1' && t != 0 && pnote[t] <= '9') {
+                t--;
+            }
+			std::string temp1;
+			if (t != 0) {
+                t++;
+            }
+            for (; t < i; t++)
+            {
+                temp1 += pnote[t];
+            }
+			final.push(std::atoi(temp1.c_str()));
+        }
+        if (pnote[i] == '+') {
+            double oper1 = final.get_top_element();
+            final.pop();
+            double oper2 = final.get_top_element();
+            final.pop();
+            final.push(oper2 + oper1);
+        }
+        if (pnote[i] == '-') {
+            double oper1 = final.get_top_element();
+            final.pop();
+            double oper2 = final.get_top_element();
+            final.pop();
+            final.push(oper2 - oper1);
+        }
+        if (pnote[i] == '*') {
+            double oper1 = final.get_top_element();
+            final.pop();
+            double oper2 = final.get_top_element();
+            final.pop();
+            final.push(oper2 * oper1);
+        }
+        if (pnote[i] == '/') {
+            double oper1 = final.get_top_element();
+            final.pop();
+            double oper2 = final.get_top_element();
+            final.pop();
+            final.push(oper2 / oper1 * 1.0);
+        }
+
+	}
+	//std::cout << final.get_top_element() << "\n";
+	return final.get_top_element();
+}
+
+std::string stackint::OPZ(const char(&note)[100])
+{
+    int i = 0;
+    stack s;
+	std::string pnote;
+	if (note[0] == '-') {
+        pnote += note[0];
+        i++;
+    }
+
+    for (; i < strlen(note); i++)
+    {
+        if (note[i] == '(') s.push(note[i]);
+        else if ((note[i] == '+') || (note[i] == '-') || (note[i] == '/') || (note[i] == '*'))
+        {
+            while ((!s.empty()) && (s.top_prior() >= s.prior(note[i])))
+            {
+				pnote += s.pop();
+				pnote+= " ";
+            }
+            s.push(note[i]);
+        }
+        else if (note[i] == ')')
+        {
+            while ((!s.empty()) && (s.get_top_element() != '('))
+            {
+				pnote += s.pop();
+				pnote += " ";
+            }
+            s.pop();
+        }
+        else
+        {
+            std::string temp = "";
+            while (i < strlen(note) && note[i] != '+' && note[i] != '-' && note[i] != '/' && note[i] != '*' && note[i] != '(' && note[i] != ')') {
+                temp += note[i];
+                i++;
+            }
+			pnote += temp += " ";
+            i--;
+        }
+    }
+    while (!s.empty())
+    {
+        pnote += s.pop();
+    }
+	return pnote;
+
+}
+
+
+//---------------------------------------------------------------------------
+
+#pragma package(smart_init)
